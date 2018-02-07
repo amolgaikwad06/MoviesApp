@@ -11,7 +11,8 @@ import SwiftyJSON
 import Alamofire
 import Foundation
 
-class MoviesListViewTableViewController: UITableViewController {
+//APIRequestManagerDelegate
+class MoviesListTableViewController: UITableViewController {
     
     // MARK: - Properties
     let searchController = UISearchController(searchResultsController: nil)
@@ -33,7 +34,6 @@ class MoviesListViewTableViewController: UITableViewController {
         setUpSearchBarController()
         removeBackButtonTitle()
         addObserverForEvent()
-        
     }
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
@@ -50,7 +50,7 @@ class MoviesListViewTableViewController: UITableViewController {
     
     // MARK: - Custom Methods
     func addObserverForEvent() {
-        NotificationCenter.default.addObserver(self, selector: #selector(MoviesListViewTableViewController.updateSearchResults), name: NSNotification.Name(rawValue: NOTIFICATION_STRING), object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(MoviesListTableViewController.updateSearchResults), name: NSNotification.Name(rawValue: NOTIFICATION_STRING), object: nil)
     }
     
     func removeBackButtonTitle() {
@@ -101,6 +101,11 @@ class MoviesListViewTableViewController: UITableViewController {
         cell.moviePosterImageView.layer.cornerRadius = 30.0
         cell.moviePosterImageView.clipsToBounds = true
     }
+    /*
+     func didReceivedData(sender: APIRequestManager) {
+     tableView.reloadData()
+     }
+     */
     
     // MARK: - Table view data source
     override func numberOfSections(in tableView: UITableView) -> Int {
@@ -119,7 +124,7 @@ class MoviesListViewTableViewController: UITableViewController {
 }
 
 // MARK: - Extension
-extension MoviesListViewTableViewController: UISearchBarDelegate {
+extension MoviesListTableViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         requestManager.resetSearch()
         updateSearchResults()

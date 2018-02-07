@@ -10,7 +10,13 @@ import Foundation
 import SwiftyJSON
 import Alamofire
 
+/*
+ protocol APIRequestManagerDelegate: class {
+ func didReceivedData(sender: APIRequestManager)
+ }
+ */
 class APIRequestManager {
+    //weak var delegate: APIRequestManagerDelegate?
     var searchResults = [MovieDetail]()
     var moviesDBObject = MoviesDB()
     var pageNumber = 1
@@ -29,7 +35,16 @@ class APIRequestManager {
                 print("Result :\(result)")
                 self.moviesDBObject = MoviesDB.populate(with: result as NSDictionary)
                 self.searchResults += JSON(self.moviesDBObject.movieDetail).arrayObject as! [MovieDetail]
+                
+                /*
+                 Using Notification
+                 */
                 NotificationCenter.default.post(name: NSNotification.Name(rawValue: NOTIFICATION_STRING), object: nil)
+                
+                /*
+                 Using Delegation
+                 */
+                //if self.delegate != nil { self.delegate?.didReceivedData(sender: self) }
             }
         }
     }
